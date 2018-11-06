@@ -32,7 +32,7 @@ To achieve the scenario outlined in this article complete the following steps:
 2. [Create a resource group](../virtual-machines/linux/create-cli-complete.md?toc=%2fazure%2fvirtual-network%2ftoc.json#create-resource-group) called *contosofabrikam* as follows:
 
     ```azurecli
-    az group create contosofabrikam westcentralus
+    az group create --name contosofabrikam --location westcentralus
     ```
 
 3. [Create an availability set](../virtual-machines/linux/create-cli-complete.md?toc=%2fazure%2fvirtual-network%2ftoc.json#create-an-availability-set) to for the two VMs. For this scenario, use the following command:
@@ -57,16 +57,16 @@ To achieve the scenario outlined in this article complete the following steps:
 6. Create two dynamic public IP addresses for the frontend IP configurations of your load balancer:
 
     ```azurecli
-    az network public-ip create --resource-group contosofabrikam --location westcentralus --name PublicIp1 --domain-name-label contoso --allocation-method Dynamic
+    az network public-ip create --resource-group contosofabrikam --location westcentralus --name PublicIp1 --dns-name contoso --allocation-method Dynamic
 
-    az network public-ip create --resource-group contosofabrikam --location westcentralus --name PublicIp2 --domain-name-label fabrikam --allocation-method Dynamic
+    az network public-ip create --resource-group contosofabrikam --location westcentralus --name PublicIp2 --dns-name fabrikam --allocation-method Dynamic
     ```
 
 7. Create the two frontend IP configurations, *contosofe* and *fabrikamfe* respectively:
 
     ```azurecli
-    az network lb frontend-ip create --resource-group contosofabrikam --lb-name mylb --public-ip-name PublicIp1 --name contosofe
-    az network lb frontend-ip create --resource-group contosofabrikam --lb-name mylb --public-ip-name PublicIp2 --name fabrkamfe
+    az network lb frontend-ip create --resource-group contosofabrikam --lb-name mylb --public-ip-address PublicIp1 --name contosofe
+    az network lb frontend-ip create --resource-group contosofabrikam --lb-name mylb --public-ip-address PublicIp2 --name fabrkamfe
     ```
 
 8. Create your backend address pools - *contosopool* and *fabrikampool*, a [probe](../virtual-machines/linux/create-cli-complete.md?toc=%2fazure%2fvirtual-network%2ftoc.json) - *HTTP*, and your load balancing rules - *HTTPc* and *HTTPf*:
